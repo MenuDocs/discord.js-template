@@ -1,0 +1,104 @@
+- Classer par date (mettre le plus proche en haut du message)
+- Faire un rappel la veille de la remise
+- Ajouter l'heure (optionnel)
+- Ajouter le lien de remise (optionnel)
+- Par groupe
+- Supprimer le message de la personne qui a ajouté le devoir
+- Un embed par devoir (Matière, date, intitulé, img de la Matière)
+
+
+Commandes :
+- Initialiser un salon -> groupe a stocker
+
+- Ajouter un devoir : !
+
+- Supprimer
+
+- Modifier
+
+
+
+devoirs.json :
+
+    "group": [
+        {
+            "name": "Aprime",
+            "channelId": "796338065584553984",
+            "devoirs": [
+                {
+                    "matière": "Algo-Prog",
+                    "date": "8 Janvier",
+                    "intitulé": "Tp"
+                },
+                {
+                    "matière": "Algebre",
+                    "date": "6 Janvier",
+                    "intitulé": "Mini exos 2"
+                }
+            ]
+        },
+        {
+            "name": "Aseconde",
+            "channelId": "796338190616756234",
+            "devoirs": []
+        },
+
+
+        {
+            "name": "Bprime",
+            "channelId": "796338154105602060",
+            "devoirs": []
+        },
+        {
+            "name": "Bseconde",
+            "channelId": "none",
+            "devoirs": []
+        },
+
+        
+        {
+            "name": "Cprime",
+            "channelId": "none",
+            "devoirs": []
+        },
+        {
+            "name": "Cseconde",
+            "channelId": "none",
+            "devoirs": []
+        },
+
+
+        {
+            "name": "Dprime",
+            "channelId": "none",
+            "devoirs": []
+        },
+        {
+            "name": "Dseconde",
+            "channelId": "none",
+            "devoirs": []
+        }
+    ] 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

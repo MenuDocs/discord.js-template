@@ -9,7 +9,8 @@
     "eslint-config-tesseract": "^0.0.2"
   },
   "dependencies": {
-    "discord.js": "^12.2.0",
+    "ascii-cats": "^1.1.1",
+    "discord.js": "^12.5.1",
     "glob": "^7.1.6",
     "path": "^0.12.7",
     "util": "^0.12.3"
