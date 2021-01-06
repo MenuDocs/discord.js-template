@@ -8,7 +8,7 @@
 
 
 Commandes :
-- Initialiser un salon -> groupe a stocker
+*- Initialiser un salon -> groupe a stocker
 
 - Ajouter un devoir : !
 
@@ -26,11 +26,13 @@ devoirs.json :
             "channelId": "796338065584553984",
             "devoirs": [
                 {
+                    "numéro" : "1",
                     "matière": "Algo-Prog",
                     "date": "8 Janvier",
                     "intitulé": "Tp"
                 },
                 {
+                    "numéro" : "2",
                     "matière": "Algebre",
                     "date": "6 Janvier",
                     "intitulé": "Mini exos 2"
