@@ -84,17 +84,6 @@ botClient.on('message', msg => {
 
 botClient.login(config.token);
 
-// class Devoir {
-// 	// constructor(matiere, date, titre){
-// 	// 	this.matiere = matiere;
-// 	// 	this.date = date;
-// 	// 	this.titre = titre;
-// 	// }
-// 	constructor(msg){
-
-// 	}
-// }
-
 /**
  * Ajoute un devoir dans la base de donnée
  */
@@ -108,20 +97,25 @@ async function ajoutDb(msg) {
 		return;
 	}
 
-	
-	const titreMsg = await getResponse(msg, "Dans quelle matière souhaitez vous ajouter ce devoir ?");
-	const titre = titreMsg.first().content;
+	const matiereMsg = await getResponse(msg, "Dans quelle matière souhaitez vous ajouter ce devoir ?");
+	const matiere = matiereMsg.first().content;
 
-	const intituléMsg = await getResponse(msg, "Quel est l'intitulé du devoir ?");
-	const intitulé = intituléMsg.first().content;
+	const titreMsg = await getResponse(msg, "Quel est l'intitulé du devoir ?");
+	const titre = titreMsg.first().content;
 	
 	const dateMsg = await getResponse(msg, "Quel est la date de remise du devoir ? (JJMM)");
 	const date = dateMsg.first().content;
 	
+	dateMsg.first().reply("Enregistrement de :\n Matiere : " + matiere + "\n intitulé : " + titre + "\n date : " + date);
 	
-	dateMsg.first().reply("Enregistrement de :\n titre : " + titre + "\n intitulé : " + intitulé + "\n date : " + date);
-
-	console.log("execution done")
+	db.groups[getGroupByID(id)].devoirs.push({	
+		"numéro": Object.keys(db.groups[getGroupByID(id)].devoirs).length + 1,	
+		"matière": matiere,	
+		"date": date,	
+		"intitulé": titre,	
+	})	
+	
+	updateDbFile();
 }
 
 const getResponse = function (msg, question) {
@@ -136,19 +130,6 @@ const getResponse = function (msg, question) {
 		.catch(collected => {
 			tempMsg("Annulation...", msg.channel)
 		});
-	});
-}
-
-
-async function demander(msg) {
-	msg.channel.send("Quel titre ?").then(() => {
-		msg.channel.awaitMessages(filter, { max: 1, time: 30000, errors: ['time'] })
-			.then(collected => {
-				msg.channel.send(`${collected.first().author} tes un bg`);
-			})
-			.catch(collected => {
-				tempMsg("Annulation...", msg.channel)
-			});
 	});
 }
 
