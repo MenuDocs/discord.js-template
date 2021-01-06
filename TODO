@@ -2,15 +2,15 @@
 - Faire un rappel la veille de la remise
 - Ajouter l'heure (optionnel)
 - Ajouter le lien de remise (optionnel)
-- Par groupe
+*- Par groupe
 - Supprimer le message de la personne qui a ajouté le devoir
-- Un embed par devoir (Matière, date, intitulé, img de la Matière)
-
+*- Un embed par devoir (Matière, date, intitulé, img de la Matière)
+- backup automatique
 
 Commandes :
 *- Initialiser un salon -> groupe a stocker
 
-- Ajouter un devoir : !
+*- Ajouter un devoir : !
 
 - Supprimer
 
