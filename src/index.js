@@ -5,6 +5,8 @@ const canvas = require('canvas');
 
 let db = require('./devoirs.json');
 const fs = require('fs');
+const { resolve } = require('path');
+const { rejects } = require('assert');
 
 function devoirEmbed() {
 	const exampleEmbed = new Discord.MessageEmbed().setTitle('A faire')
@@ -46,7 +48,6 @@ botClient.on('message', msg => {
 
 	if (!msg.content.startsWith(config.prefix))//Si le message ne commence pas par le prefix du config.json
 		return;
-
 
 	switch (msg.content.substr(1).split(" ")[0]) {
 
@@ -99,11 +100,6 @@ botClient.login(config.token);
  */
 async function ajoutDb(msg) {
 
-	// const args = msg.content.split(" ");
-	// args.forEach(element => {
-	// 	tempMsg(element, msg.channel);
-	// });
-
 	const id = msg.channel.id;
 
 	if (getGroupByID(id) == -1) {
@@ -112,39 +108,48 @@ async function ajoutDb(msg) {
 		return;
 	}
 
-	askTitle(msg);
-	// const devoir = new Devoir();
-	// const matiere = await askUser(msg, "Quelle matière ?");
-	// const date = await askUser(msg, "Pour quand ?");
+	
+	const titreMsg = await getResponse(msg, "Dans quelle matière souhaitez vous ajouter ce devoir ?");
+	const titre = titreMsg.first().content;
 
-	// db.groups[getGroupByID(id)].devoirs.push({
-	// 	"numéro": Object.keys(db.groups[getGroupByID(id)].devoirs).length + 1,
-	// 	"matière": matiere,
-	// 	"date": date,
-	// 	"intitulé": titre,
-	// })
+	const intituléMsg = await getResponse(msg, "Quel est l'intitulé du devoir ?");
+	const intitulé = intituléMsg.first().content;
+	
+	const dateMsg = await getResponse(msg, "Quel est la date de remise du devoir ? (JJMM)");
+	const date = dateMsg.first().content;
+	
+	
+	dateMsg.first().reply("Enregistrement de :\n titre : " + titre + "\n intitulé : " + intitulé + "\n date : " + date);
 
-	// updateDbFile();
-
-	// tempMsg(`Devoir ajouté dans ${msg.channel.name}`, msg.channel)
+	console.log("execution done")
 }
 
-async function askTitle(msg) {
-	let filter = m => m.author.id === msg.author.id
-	msg.reply("Quelle matière").then(() => {
-		msg.channel.awaitMessages(filter ,{
-			max: 1,
-			time: 30000,
-			errors: ['time']
-		})
-		.then(msg => {
-			tempMsg("dhehfuehfuehe", msg.channel)
+const getResponse = function (msg, question) {
+	msg.channel.send(question);
+
+	return new Promise(function (resolve) {
+		const filter = m => m.author.id === msg.author.id;
+		msg.channel.awaitMessages(filter, { max: 1, time: 30000, errors: ['time'] })
+		.then(collected => {
+			resolve(collected)
 		})
 		.catch(collected => {
-			console.error(collected);
-			msg.channel.send('Timeout');
+			tempMsg("Annulation...", msg.channel)
 		});
-	})
+	});
+}
+
+
+async function demander(msg) {
+	msg.channel.send("Quel titre ?").then(() => {
+		msg.channel.awaitMessages(filter, { max: 1, time: 30000, errors: ['time'] })
+			.then(collected => {
+				msg.channel.send(`${collected.first().author} tes un bg`);
+			})
+			.catch(collected => {
+				tempMsg("Annulation...", msg.channel)
+			});
+	});
 }
 
 function groupInit(msg) {
