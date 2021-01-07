@@ -1,6 +1,6 @@
-const embed = require('./embeds')
-const fs = require('fs');
-const matDB = require('./matieres.json');
+const embed = require("./embeds");
+const fs = require("fs");
+const matDB = require("./matieres.json");
 
 /**
  * Retourne la position d'un groupe dans le tableau groups de la db
@@ -14,18 +14,18 @@ const getGroupByID = (groups, id) => {
 			return i;
 	}
 	return -1;
-}
+};
 
 /**
  * Affiche le message donné, puis le supprime après 5sec
  * @param content le contenu du message a envoyer
  * @param channel dans lequel va être envoyé le message
  */
-const tempMsg = (content, channel) => {
+const tempMsg = (content, channel, time = 5000) => {
 	channel.send(embed.questionEmbed(content)).then(botMsg => {
-		botMsg.delete({ timeout: 5000 });
-	})
-}
+		botMsg.delete({ timeout: time });
+	});
+};
 
 /**
  * Pose une question à l'utilisateur via Discord et renvois sa reponse ainsi que le message du bot comprenant la question
@@ -34,34 +34,40 @@ const tempMsg = (content, channel) => {
  * @return la premesse qui resoud un tableau de deux elements : [Reponse utilisateur , Message du bot comprenent la question]
  */
 const getResponse = async function (msg, question, help = null) {
-	let questMsg = await msg.channel.send(embed.questionEmbed(question, help))
+	let questMsg = await msg.channel.send(embed.questionEmbed(question, help));
 	return new Promise(
 		function (resolve) {
 			const filter = m => m.author.id === msg.author.id;
-			msg.channel.awaitMessages(filter, { max: 1, time: 30000, errors: ['time'] })
+			msg.channel.awaitMessages(filter, { max: 1, time: 30000, errors: ["time"] })
 				.then(collected => {
 					resolve([collected.first(), questMsg]);
 					questMsg.edit(embed.questionEmbed(question, trouverMatière( collected.first().content )));
 				})
-				.catch(collected => {
-					tempMsg("Annulation...", msg.channel)
+				.catch(() => {
+					tempMsg("Annulation : temps de réponse trop long", msg.channel, 2);
 					if (questMsg)
 						questMsg.delete();
 				});
 		}
 	);
-}
+};
 
 /**
  * Met a jour la db
  * @param db le contenu du fichier a mettre a jour
  */
 const updateDbFile = (db) => {
-	fs.writeFileSync('./src/devoirs.json', JSON.stringify(db));
-	if(db.groups.length > 0)
-		fs.writeFileSync('./src/db.back', JSON.stringify(db));
-	console.log("BD MISE A JOUR !");
-}
+	try {
+		fs.writeFileSync("./devoirs.json", JSON.stringify(db));
+	} catch (e) {
+		console.error(e);
+	}
+
+	// if(db.groups.length > 0)
+	// 	fs.writeFileSync("./src/db.back", JSON.stringify(db));
+
+	console.log("BD MISE A JOUR ! (Backups non actif)");
+};
 
 /**
  * Affiche le contenu de la db
@@ -69,10 +75,10 @@ const updateDbFile = (db) => {
  * @param msg le message d'origine
  */
 const debugDbFile = (db, msg) => {
-	console.log("debug")
-	msg.reply("```" + JSON.stringify(db, null, 4) + "```")
+	console.log("debug");
+	msg.reply("```" + JSON.stringify(db, null, 4) + "```");
 	msg.delete();
-}
+};
 
 /**
  * Ecrase le contenu de la db par un tableau groups vierge
@@ -85,7 +91,7 @@ const clearDbFile = (db, msg) => {
 	updateDbFile(db);
 	console.warn("DATABASE RESET");
 	return db;
-}
+};
 
 /**
  * Verifie la validité de la date
@@ -96,15 +102,15 @@ const dateValide = (date) => {
 	if (date.length !== 5)
 		return false;
 
-	splitArr = date.split("/");
+	const splitArr = date.split("/");
 	if (splitArr.length !== 2)
-		return false
+		return false;
 
 	if (+splitArr[0] !== parseInt(splitArr[0]))
-		return false
+		return false;
 
 	if (+splitArr[1] !== parseInt(splitArr[1]))
-		return false
+		return false;
 
 	if (parseInt(splitArr[0]) > 31 || parseInt(splitArr[0]) <= 0)
 		return false;
@@ -113,7 +119,7 @@ const dateValide = (date) => {
 		return false;
 
 	return true;
-}
+};
 
 const trouverMatière = (source) => {
 	matDB.matières.forEach(mat => {
@@ -124,7 +130,7 @@ const trouverMatière = (source) => {
 		});
 	});
 	return source;
-}
+};
 
 exports.getGroupByID = getGroupByID;
 exports.tempMsg = tempMsg;

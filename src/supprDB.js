@@ -1,5 +1,4 @@
-const utils = require('./utils')
-const embed = require('./embeds');
+const utils = require("./utils");
 
 /**
  * Supprime un devoir de la db
@@ -14,14 +13,14 @@ const supprDb = async (db, msg) => {
 	// Si l'agenda n'a pas été initialisé
 	if (groupID == -1) {
 		console.error("Cet id n'existe pas");
-		utils.tempMsg("Ce salon n'est pas un agenda (!help-agenda)", msg.channel)
+		utils.tempMsg("Ce salon n'est pas un agenda (!help-agenda)", msg.channel);
 		return;
 	}
 
 	// Si aucun devoir n'a été ajouté
 	if (Object.keys(db.groups[groupID].devoirs).length == 0) {
-		utils.tempMsg("Aucun devoir dans l'agenda", msg.channel)
-		return; da
+		utils.tempMsg("Aucun devoir dans l'agenda", msg.channel);
+		return;
 	}
 
 	const supprMsg = await utils.getResponse(msg, "Quel devoir voulez-vous supprimer ? (numéro du devoir)");
@@ -37,7 +36,7 @@ const supprDb = async (db, msg) => {
 					embed.delete();
 				}).catch(e => {
 					console.error(e);
-				})
+				});
 
 			db.groups[groupID].devoirs.splice(i, 1);
 			utils.tempMsg(`Devoir ${suppr} supprimé !`, msg.channel);
@@ -46,7 +45,7 @@ const supprDb = async (db, msg) => {
 	}
 
 	utils.tempMsg("Aucun devoir avec ce numéro dans l'agenda", msg.channel);
-}
+};
 
 /**
  * Supprime un devoir (et l'embed correspondant) si la date est passée
@@ -62,39 +61,39 @@ const supprDevoirDate = async (db, msg) => {
 	for (let g = 0; g < db.groups.length; g++) {
 		for (let i = 0; i < db.groups[g].devoirs.length; i++) {
 			dateDevoir = db.groups[g].devoirs[i].date;
-			splitArr = dateDevoir.split("/");
-			dayDevoir = parseInt(splitArr[0]);
-			monthDevoir = parseInt(splitArr[1]);
+			let splitArr = dateDevoir.split("/");
+			let dayDevoir = parseInt(splitArr[0]);
+			let monthDevoir = parseInt(splitArr[1]);
 			if (monthDevoir === 1 || monthDevoir === 3 || monthDevoir === 5 || monthDevoir === 7 || monthDevoir === 8 || monthDevoir === 10 || monthDevoir === 12) {
 				if (day === (dayDevoir + 1) || month === (monthDevoir + 1) || ((day === 1 && dayDevoir === 31) && (month === 1 && monthDevoir === 12))) {
 					msg.channel.messages.fetch(db.groups[g].devoirs[i].embedId)
-					.then(embed => {
-						embed.delete();
-					}).catch(e => {
-						console.error(e);
-					})
+						.then(embed => {
+							embed.delete();
+						}).catch(e => {
+							console.error(e);
+						});
 					db.groups[g].devoirs.splice(i, 1);
 				}
 			}
 			else if (monthDevoir === 2) {
 				if (day === (dayDevoir + 1) || month === (monthDevoir + 1)) {
 					msg.channel.messages.fetch(db.groups[g].devoirs[i].embedId)
-					.then(embed => {
-						embed.delete();
-					}).catch(e => {
-						console.error(e);
-					})
+						.then(embed => {
+							embed.delete();
+						}).catch(e => {
+							console.error(e);
+						});
 					db.groups[g].devoirs.splice(i, 1);
 				}
 			}
 			else {
 				if (day === (dayDevoir + 1) || month === (monthDevoir + 1)) {
 					msg.channel.messages.fetch(db.groups[g].devoirs[i].embedId)
-					.then(embed => {
-						embed.delete();
-					}).catch(e => {
-						console.error(e);
-					})
+						.then(embed => {
+							embed.delete();
+						}).catch(e => {
+							console.error(e);
+						});
 					db.groups[g].devoirs.splice(i, 1);
 				}
 			}
@@ -102,7 +101,7 @@ const supprDevoirDate = async (db, msg) => {
 	}
 
 
-}
+};
 
 exports.supprDb = supprDb;
 exports.supprDevoirDate = supprDevoirDate;

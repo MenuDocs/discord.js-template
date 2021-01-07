@@ -1,6 +1,5 @@
-const utils = require('./utils');
-const embed = require('./embeds');
-const formEmbedCreator = require('./formEmbedCreator');
+const utils = require("./utils");
+const formEmbedCreator = require("./formEmbedCreator");
 
 /**
  * Ajoute un devoir dans la base de donnée
@@ -9,7 +8,7 @@ const formEmbedCreator = require('./formEmbedCreator');
  */
 const ajoutDb = async (db, msg) => {
 
-	console.log("Demande d'ajout")
+	console.log("Demande d'ajout");
 
 	const id = msg.channel.id;
 
@@ -17,7 +16,7 @@ const ajoutDb = async (db, msg) => {
 
 	if (groupID == -1) {
 		console.error("Cet id n'existe pas");
-		utils.tempMsg("Ce salon n'est pas un agenda (!help-agenda)", msg.channel)
+		utils.tempMsg("Ce salon n'est pas un agenda (!help-agenda)", msg.channel);
 		return;
 	}
 
@@ -33,9 +32,9 @@ const ajoutDb = async (db, msg) => {
 		"numéro": parseInt(finalEmbed.footer.text),
 		"date": finalEmbed.fields[0].value,
 		"intitulé": finalEmbed.fields[1].value,
-	})
+	});
 
 	utils.updateDbFile(db);
-}
+};
 
 exports.ajoutDb = ajoutDb;

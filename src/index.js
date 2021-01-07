@@ -1,38 +1,38 @@
-const Discord = require('discord.js');
+const Discord = require("discord.js");
 const botClient = new Discord.Client();
-const config = require('../config.json');
+const config = require("../config.json");
 
-const asciiCats = require('ascii-cats')
+const asciiCats = require("ascii-cats");
 
-const embed = require('./embeds');
-const ajout = require('./ajoutDB')
-const utils = require('./utils')
-const init = require('./initDb')
-const suppr = require('./supprDB')
-const modif = require('./modifDB')
-const compteur = require('./compteur')
+const embed = require("./embeds");
+const ajout = require("./ajoutDB");
+const utils = require("./utils");
+const init = require("./initDb");
+const suppr = require("./supprDB");
+const modif = require("./modifDB");
+const compteur = require("./compteur");
 
-let db = require('./devoirs.json');
+let db = require("./devoirs.json");
 
 /**
  * Au démarrage du bot
  */
-botClient.on('ready', () => {
+botClient.on("ready", () => {
 	//Status du bot
 	botClient.user.setActivity("!help-agenda");
 
 	console.clear();
-	console.log("=============================")
-	console.log(asciiCats('nyan'));
-	console.log("\n\n Bot started !")
-	console.log("=============================")
+	console.log("=============================");
+	console.log(asciiCats("nyan"));
+	console.log("\n\n Bot started !");
+	console.log("=============================");
 	
 });
 
 /**
  * Des qu'un message sur le serveur ou le bot est présent est reçu
  */
-botClient.on('message', msg => {
+botClient.on("message", msg => {
 	suppr.supprDevoirDate(db, msg);
 	compteur.compteur(db, msg);
 
@@ -41,44 +41,44 @@ botClient.on('message', msg => {
 		return;
 
 	switch (msg.content.substr(1).split(" ")[0]) {//Switch sur le premier mot du msg sans le prefix Ex: "!agenda dejfez" donne "agenda"
-		case 'init-agenda':
-			init.groupInit(db, msg);
-			break;
+	case "init-agenda":
+		init.groupInit(db, msg);
+		break;
 
-		case 'agenda':
-			ajout.ajoutDb(db, msg);
-			break;
+	case "agenda":
+		ajout.ajoutDb(db, msg);
+		break;
 
-		case 'debug':
-			utils.debugDbFile(db, msg);
-			break;
+	case "debug":
+		utils.debugDbFile(db, msg);
+		break;
 
-		case 'clear-db':
-			db = utils.clearDbFile(db, msg)
-			break;
+	case "clear-db":
+		db = utils.clearDbFile(db, msg);
+		break;
 
-		case 'help-agenda':
-			msg.channel.send(embed.helpEmbed());
-			break;
+	case "help-agenda":
+		msg.channel.send(embed.helpEmbed());
+		break;
 
-		case 'suppr-agenda':
-			suppr.supprDb(db, msg);
-			break;
+	case "suppr-agenda":
+		suppr.supprDb(db, msg);
+		break;
 
-		case 'modif-agenda' :
-			modif.modifDB(db, msg);
-			break;
+	case "modif-agenda" :
+		modif.modifDB(db, msg);
+		break;
 
-		default:
-			console.log("Commande non reconnue : " + msg.content);
-			break;
+	default:
+		console.log("Commande non reconnue : " + msg.content);
+		break;
 	}
 
 	if (msg)
 		if (msg.deletable)
 			msg.delete()
-				.then(e => { console.log("Message supprimé") })
-				.catch(e => { console.error("Message déjà supprimé") });
+				.then(() => { console.log("Message supprimé"); })
+				.catch(() => { console.error("Message déjà supprimé"); });
 
 });
 

@@ -1,5 +1,5 @@
-const utils = require('./utils');
-const embed = require('./embeds');
+const utils = require("./utils");
+const embed = require("./embeds");
 
 const formEmbed = async (msg, groupObj) => {
 	let registeredMessages = [];
@@ -19,13 +19,13 @@ const formEmbed = async (msg, groupObj) => {
 	let erreurDate = false;
 	while (!utils.dateValide(date)) {
 
-        if(erreurDate)
-            dateMsg[1].delete().catch(e => console.log("Déjà supprimé"));
+		if(erreurDate)
+			dateMsg[1].delete().catch(() => console.log("Déjà supprimé"));
         
 		dateMsg = await utils.getResponse(
 			msg, erreurDate ?
-			"Date invalide, réssayez avec le bon format (JJ/MM)" :
-			"Quel est la date de remise du devoir ? (JJ/MM)"
+				"Date invalide, réssayez avec le bon format (JJ/MM)" :
+				"Quel est la date de remise du devoir ? (JJ/MM)"
 		);
 		date = dateMsg[0].content;
 		dateMsg[0].delete();
@@ -33,11 +33,13 @@ const formEmbed = async (msg, groupObj) => {
 		erreurDate = true;
 	}
 
-	if (!dateMsg)
-		throw new error;
+	if (!dateMsg){
+		utils.tempMsg("Erreur inconnue");
+		return;
+	}
 
 	registeredMessages.forEach(element => {
-		element.delete().catch(e => console.log("Déjà supprimé"));
+		element.delete().catch(() => console.log("Déjà supprimé"));
 	});
 
 	let numDevoir = getNewDevoirNum(groupObj);
@@ -49,7 +51,7 @@ const formEmbed = async (msg, groupObj) => {
 		msg.author.username,
 		numDevoir
 	);
-}
+};
 
 const getNewDevoirNum = (devoirs) => {
 	let numDevoir = 1;
@@ -58,6 +60,6 @@ const getNewDevoirNum = (devoirs) => {
 			numDevoir = devoirs[i].numéro + 1;
 	}
 	return numDevoir;
-}
+};
 
 exports.formEmbed = formEmbed;

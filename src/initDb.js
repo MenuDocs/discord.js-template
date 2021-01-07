@@ -1,4 +1,4 @@
-const utils = require('./utils')
+const utils = require("./utils");
 
 /**
  * Initialise la db dans le channel
@@ -30,7 +30,7 @@ const groupInit = (db,msg) => {
 			"channelId": id,
 			"name": channelName,
 			"devoirs": []
-		})
+		});
 
 		utils.updateDbFile(db);
 		console.log("Groupe ajouté : " + channelName);
@@ -39,6 +39,6 @@ const groupInit = (db,msg) => {
 	} catch (e) {
 		console.error(e);
 	}
-}
+};
 
 exports.groupInit = groupInit;
