@@ -3,13 +3,15 @@ const embed = require('./embeds');
 
 /**
  * Ajoute un devoir dans la base de donnée
+ * @param db le contenu de la base de donnée
+ * @param msg le message d'origine
  */
-const ajoutDb = async (db,msg) => {
+const ajoutDb = async (db, msg) => {
 	console.log("Demande d'ajout")
-	
+
 	const id = msg.channel.id;
 
-	const groupID = utils.getGroupByID(db.groups,id);
+	const groupID = utils.getGroupByID(db.groups, id);
 
 	if (groupID == -1) {
 		console.error("Cet id n'existe pas");
@@ -20,7 +22,7 @@ const ajoutDb = async (db,msg) => {
 	let registeredMessages = [];
 
 	const matiereMsg = await utils.getResponse(msg, "Dans quelle matière souhaitez vous ajouter ce devoir ?");
-	const matiere = matiereMsg[0].content;
+	const matiere = utils.trouverMatière(matiereMsg[0].content);
 	matiereMsg[0].delete();
 	registeredMessages.push(matiereMsg[1]);
 
@@ -31,7 +33,7 @@ const ajoutDb = async (db,msg) => {
 
 	let date = "_";
 	let dateMsg = null;
-	while (!dateValide(date)) {
+	while (!utils.dateValide(date)) {
 		dateMsg = await utils.getResponse(msg, "Quel est la date de remise du devoir ? (JJ/MM)");
 		date = dateMsg[0].content;
 		dateMsg[0].delete();
@@ -72,27 +74,6 @@ const ajoutDb = async (db,msg) => {
 	utils.updateDbFile(db);
 }
 
-function dateValide(date) {
-	if (date.length !== 5)
-		return false;
 
-	splitArr = date.split("/");
-	if (splitArr.length !== 2)
-		return false
-
-	if (+splitArr[0] !== parseInt(splitArr[0]))
-		return false
-
-	if (+splitArr[1] !== parseInt(splitArr[1]))
-		return false
-
-	if (parseInt(splitArr[0]) > 31 || parseInt(splitArr[0]) <= 0)
-		return false;
-
-	if (parseInt(splitArr[1]) > 12 || parseInt(splitArr[1]) <= 0)
-		return false;
-
-	return true;
-}
 
 exports.ajoutDb = ajoutDb;

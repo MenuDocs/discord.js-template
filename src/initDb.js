@@ -1,5 +1,10 @@
 const utils = require('./utils')
 
+/**
+ * Initialise la db dans le channel
+ * @param db le contenu du fichier a mettre a jour
+ * @param msg le message d'origine
+ */
 const groupInit = (db,msg) => {
 	try {
 		const id = msg.channel.id;
@@ -7,6 +12,7 @@ const groupInit = (db,msg) => {
 
 		let groupFound = false;
 		db.groups.forEach(group => {
+			// Si la db a deja été initialisée dans ce channel
 			if (group.channelId === id) {
 				console.log("duplicate found");
 				groupFound = true;
@@ -14,6 +20,7 @@ const groupInit = (db,msg) => {
 			}
 		});
 
+		// Si la db a deja été initialisée dans ce channel
 		if (groupFound) {
 			utils.tempMsg("Ce salon est déjà initialisé.", msg.channel);
 			return;

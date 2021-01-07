@@ -1,0 +1,132 @@
+{
+    "matières": [
+        {
+            "nom" : "Algo-Prog",
+            "alias": [
+                "ap",
+                "algo",
+                "prog",
+                "algo-prog",
+                "algoprog"
+            ]
+        },
+        {
+            "nom" : "Système",
+            "alias": [
+                "sys",
+                "syst",
+                "system",
+                "système",
+                "systeme",
+                "feu"
+            ]
+        },
+        {
+            "nom" : "ACSI-BD",
+            "alias": [
+                "asci",
+                "acsi",
+                "bd",
+                "asci-bd",
+                "acsi-bd"
+            ]
+        },
+        {
+            "nom" : "Archi",
+            "alias": [
+                "arch",
+                "archi",
+                "archit",
+                "architecture"
+            ]
+        },
+        {
+            "nom" : "Projet",
+            "alias": [
+                "proj",
+                "projet"
+            ]
+        },
+        {
+            "nom" : "WEB",
+            "alias": [
+                "wb",
+                "html",
+                "css",
+                "web",
+                "js"
+            ]
+        },
+        {
+            "nom" : "PT1",
+            "alias": [
+                "pt",
+                "pt1"
+            ]
+        },
+        {
+            "nom" : "Maths-Discrètes",
+            "alias": [
+                "discret",
+                "discrèt"
+            ]
+        },
+        {
+            "nom" : "Algèbre-linéaire",
+            "alias": [
+                "maths",
+                "mathematique",
+                "mathématique",
+                "math",
+                "algebre",
+                "algèbre",
+                "linéaire",
+                "lineaire",
+                "line"
+            ]
+        },
+        {
+            "nom" : "Env-Economique",
+            "alias": [
+                "environnement",
+                "envi",
+                "éco",
+                "économie",
+                "eco"
+            ]
+        },
+        {
+            "nom" : "Fct-Organisations",
+            "alias": [
+                "orga",
+                "organisation",
+                "fonctionnement",
+                "fonct"
+            ]
+        },
+        {
+            "nom" : "Expression-Communication",
+            "alias": [
+                "expression",
+                "exp",
+                "com",
+                "communication"
+            ]
+        },
+        {
+            "nom" : "Anglais",
+            "alias": [
+                "anglais",
+                "english",
+                "inter",
+                "eng"
+            ]
+        },
+        {
+            "nom" : "PPP",
+            "alias": [
+                "ppp"
+            ]
+        }
+    ]
+}
