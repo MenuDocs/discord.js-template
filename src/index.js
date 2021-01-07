@@ -10,6 +10,7 @@ const utils = require('./utils')
 const init = require('./initDb')
 const suppr = require('./supprDB')
 const modif = require('./modifDB')
+const compteur = require('./compteur')
 
 let db = require('./devoirs.json');
 
@@ -25,6 +26,7 @@ botClient.on('ready', () => {
 	console.log(asciiCats('nyan'));
 	console.log("\n\n Bot started !")
 	console.log("=============================")
+	
 });
 
 /**
@@ -32,6 +34,7 @@ botClient.on('ready', () => {
  */
 botClient.on('message', msg => {
 	suppr.supprDevoirDate(db, msg);
+	compteur.compteur(db, msg);
 
 	//On regarde si le message commence bien par le prefix (!)
 	if (!msg.content.startsWith(config.prefix))//Si le message ne commence pas par le prefix du config.json

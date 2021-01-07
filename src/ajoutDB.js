@@ -1,5 +1,6 @@
-const utils = require('./utils')
+const utils = require('./utils');
 const embed = require('./embeds');
+const formEmbedCreator = require('./formEmbedCreator');
 
 /**
  * Ajoute un devoir dans la base de donnée
@@ -7,6 +8,7 @@ const embed = require('./embeds');
  * @param msg le message d'origine
  */
 const ajoutDb = async (db, msg) => {
+
 	console.log("Demande d'ajout")
 
 	const id = msg.channel.id;
@@ -19,61 +21,21 @@ const ajoutDb = async (db, msg) => {
 		return;
 	}
 
-	let registeredMessages = [];
+	let finalEmbed = await formEmbedCreator.formEmbed(msg, db.groups[groupID]);
 
-	const matiereMsg = await utils.getResponse(msg, "Dans quelle matière souhaitez vous ajouter ce devoir ?");
-	const matiere = utils.trouverMatière(matiereMsg[0].content);
-	matiereMsg[0].delete();
-	registeredMessages.push(matiereMsg[1]);
+	const devoirMsg = await msg.reply(finalEmbed);
 
-	const intituleMsg = await utils.getResponse(msg, "Quel est l'intitulé du devoir ?");
-	const intitule = intituleMsg[0].content;
-	intituleMsg[0].delete();
-	registeredMessages.push(intituleMsg[1]);
-
-	let date = "_";
-	let dateMsg = null;
-	while (!utils.dateValide(date)) {
-		dateMsg = await utils.getResponse(msg, "Quel est la date de remise du devoir ? (JJ/MM)");
-		date = dateMsg[0].content;
-		dateMsg[0].delete();
-		registeredMessages.push(dateMsg[1]);
-	}
-
-	if (!dateMsg)
-		throw new error;
-
-	registeredMessages.forEach(element => {
-		element.delete();
-	});
-
-	let numDevoir = 1;
-	for (let i = 0; i < db.groups[groupID].devoirs.length; i++) {
-		if (numDevoir <= db.groups[groupID].devoirs[i].numéro)
-			numDevoir = db.groups[groupID].devoirs[i].numéro + 1;
-	}
-
-	const devoirMsg = await dateMsg[0].reply(embed.devoirEmbed(
-		matiere,
-		date,
-		intitule,
-		msg.author.username,
-		numDevoir
-	));
-
-	embedID = devoirMsg.id;
+	const embedID = devoirMsg.id;
 
 	db.groups[groupID].devoirs.push({
 		"embedId": embedID,
-		"numéro": numDevoir,
-		"matière": matiere,
-		"date": date,
-		"intitulé": intitule,
+		"matière": finalEmbed.title,
+		"numéro": parseInt(finalEmbed.footer.text),
+		"date": finalEmbed.fields[0].value,
+		"intitulé": finalEmbed.fields[1].value,
 	})
 
 	utils.updateDbFile(db);
 }
-
-
 
 exports.ajoutDb = ajoutDb;

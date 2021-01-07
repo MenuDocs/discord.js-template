@@ -6,7 +6,7 @@
 *- Un embed par devoir (Matière, date, intitulé, img de la Matière)
 *- backup automatique
 *- Proposition de matière
-- Supprimer le devoir quand la date est passée
+*- Supprimer le devoir quand la date est passée
 - Join code d'ajout et modif
 - Compteur de jour restants
 
