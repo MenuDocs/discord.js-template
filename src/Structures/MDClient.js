@@ -7,6 +7,7 @@ module.exports = class MenuDocsClient extends Client {
 		super({
 			disableMentions: 'everyone'
 		});
+		
 		this.validate(options);
 
 		this.commands = new Collection();
@@ -16,8 +17,6 @@ module.exports = class MenuDocsClient extends Client {
 		this.events = new Collection();
 
 		this.utils = new Util(this);
-
-		this.owners = options.owners;
 	}
 
 	validate(options) {
@@ -29,6 +28,10 @@ module.exports = class MenuDocsClient extends Client {
 		if (!options.prefix) throw new Error('You must pass a prefix for the client.');
 		if (typeof options.prefix !== 'string') throw new TypeError('Prefix should be a type of String.');
 		this.prefix = options.prefix;
+		
+		if (!options.owners) throw new Error('You must pass a list of owners for the client.');
+		if (typeof options.prefix !== 'string') throw new TypeError('Owners should be a type of Array<String>.');
+		this.owners = options.owners;
 	}
 
 	async start(token = this.token) {
