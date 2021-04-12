@@ -30,7 +30,7 @@ module.exports = class MenuDocsClient extends Client {
 		this.prefix = options.prefix;
 		
 		if (!options.owners) throw new Error('You must pass a list of owners for the client.');
-		if (typeof options.owners !== 'object') throw new TypeError('Owners should be a type of Array<String>.');
+		if (Array.isArray(options.owners)) throw new TypeError('Owners should be a type of Array<String>.');
 		this.owners = options.owners;
 	}
 
