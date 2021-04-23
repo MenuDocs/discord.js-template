@@ -19,6 +19,10 @@ module.exports = class Util {
 	get directory() {
 		return `${path.dirname(require.main.filename)}${path.sep}`;
 	}
+	
+	removeDuplicates(arr) {
+		return [...new Set(arr)];
+	}
 
 	async loadCommands() {
 		return glob(`${this.directory}Commands/**/*.js`).then(commands => {
