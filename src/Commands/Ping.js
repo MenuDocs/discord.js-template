@@ -1,4 +1,4 @@
-const Command = require('../../Structures/Command');
+const Command = require('../Structures/Command');
 
 module.exports = class extends Command {
 
@@ -11,10 +11,12 @@ module.exports = class extends Command {
 	}
 
 	async run(message) {
-		const msg = await message.channel.send('Pinging...');
+		const msg = await message.reply('Pinging...');
 		const latency = msg.createdTimestamp - message.createdTimestamp;
 
-		msg.edit(`Bot Latency: \`${latency}ms\`, API Latency: \`${Math.round(this.client.ws.ping)}ms\``);
+		msg.edit({
+			content: `Bot Latency: \`${latency}ms\`, API Latency: \`${Math.round(this.client.ws.ping)}ms\``
+		});
 	}
 
 };
