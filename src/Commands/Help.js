@@ -25,7 +25,7 @@ module.exports = class extends Command {
 
 			if (!cmd) return message.channel.send(`Invalid Command named. \`${command}\``);
 
-			embed.setAuthor(`${this.client.utils.capitalise(cmd.name)} Command Help`, this.client.user.displayAvatarURL());
+			embed.setAuthor(`${cmd.name} Command Help`, this.client.user.displayAvatarURL());
 			embed.setDescription([
 				`**❯ Aliases:** ${cmd.aliases.length ? cmd.aliases.map(alias => `\`${alias}\``).join(' ') : 'No Aliases'}`,
 				`**❯ Description:** ${cmd.description}`,
@@ -48,7 +48,7 @@ module.exports = class extends Command {
 			}
 
 			for (const category of categories) {
-				embed.addField(`**${this.client.utils.capitalise(category)}**`, this.client.commands.filter(cmd =>
+				embed.addField(`**${category}**`, this.client.commands.filter(cmd =>
 					cmd.category === category).map(cmd => `\`${cmd.name}\``).join(' '));
 			}
 			return message.channel.send(embed);
