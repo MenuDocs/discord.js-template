@@ -1,5 +1,5 @@
 const { MessageEmbed } = require('discord.js');
-const Command = require('../../Structures/Command');
+const Command = require('../Structures/Command');
 
 module.exports = class extends Command {
 
@@ -33,7 +33,9 @@ module.exports = class extends Command {
 				`**❯ Usage:** ${cmd.usage}`
 			]);
 
-			return message.channel.send(embed);
+			return message.reply({
+				embeds: [embed]
+			});
 		} else {
 			embed.setDescription([
 				`These are the available commands for ${message.guild.name}`,
@@ -51,7 +53,9 @@ module.exports = class extends Command {
 				embed.addField(`**${this.client.utils.capitalise(category)}**`, this.client.commands.filter(cmd =>
 					cmd.category === category).map(cmd => `\`${cmd.name}\``).join(' '));
 			}
-			return message.channel.send(embed);
+			return message.reply({
+				embeds: [embed]
+			});
 		}
 	}
 
